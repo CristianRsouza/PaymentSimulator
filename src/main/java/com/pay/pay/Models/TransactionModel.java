@@ -13,8 +13,8 @@ import lombok.Data;
 public class TransactionModel {
       @Id
     private UUID id;
-    private UserModel userInviter;
-    private UserModel userReciver;
+    private String userInviter;
+    private String userReciver;
     private Integer value;
 
 

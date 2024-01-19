@@ -46,20 +46,20 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
       }
 
-      private boolean HaveMoneyEnougth(UserModel userInviter) {
+      private boolean HaveMoneyEnougth(String userInviter) {
         
 
         return false;
       
       }
 
-      private boolean ReciverExits(UserModel userReciver) {
+      private boolean ReciverExits(String userReciver) {
         return users.contains(userReciver);
 
       }
 
-      private boolean InviterExist(UserModel userInviter) {
-          return users.contains(userInviter);
+      private boolean InviterExist(String string) {
+          return users.contains(string);
       }
 
 }

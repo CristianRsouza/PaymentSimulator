@@ -1,5 +1,6 @@
 package com.pay.pay.Models;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,11 +13,14 @@ import lombok.Data;
 @Data
 public class UserModel {
 
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer Id;
-  private String Name;
+  @Id 
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
+  private String name;
   private String cpf;
   private String userType;
   private Integer wallet;
+
+
 
 }
