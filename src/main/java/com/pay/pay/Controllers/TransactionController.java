@@ -35,32 +35,38 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<Object> register(@RequestBody TransactionModel newTransaction) {
-        if (isInviterExists(newTransaction.getUserInviter())) {
-            System.out.println("O inviter existe");
-            if (isReceiverExists(newTransaction.getUserReceiver())) {
-                System.out.println("O destinatario existe");
-                if (haveEnoughMoney(newTransaction.getValue_in_cents(), newTransaction.getUserInviter())) {
-                    
-                    UserModel userInviter = userRepository.findByCpf(newTransaction.getUserInviter()).orElseThrow();
-                    UserModel userReceiver = userRepository.findByCpf(newTransaction.getUserReceiver()).orElseThrow();
-        
-                    userInviter.setWallet(userInviter.getWallet() - newTransaction.getValue_in_cents());
-                    userRepository.save(userInviter);
-                    userRepository.save(userReceiver);
-                    System.out.println("Realizando tranzaçao...");
-                    System.out.println("Transação realizada com sucesso!");
-                    newTransaction.setId(UUID.randomUUID());
-                    transactionRepository.save(newTransaction);
-                    return ResponseEntity.status(HttpStatus.ACCEPTED).body(newTransaction);
+        if(!isBussines(newTransaction.getUserInviter())) {
+            if (isInviterExists(newTransaction.getUserInviter())) {
+                System.out.println("O inviter existe");
+                if (isReceiverExists(newTransaction.getUserReceiver())) {
+                    System.out.println("O destinatario existe");
+                    if (haveEnoughMoney(newTransaction.getValue_in_cents(), newTransaction.getUserInviter())) {
+                        
+                        UserModel userInviter = userRepository.findByCpf(newTransaction.getUserInviter()).orElseThrow();
+                        UserModel userReceiver = userRepository.findByCpf(newTransaction.getUserReceiver()).orElseThrow();
+            
+                        userInviter.setWallet(userInviter.getWallet() - newTransaction.getValue_in_cents());
+                        userRepository.save(userInviter);
+                        userRepository.save(userReceiver);
+                        System.out.println("Transação realizada com sucesso!");
+                        newTransaction.setId(UUID.randomUUID());
+                        transactionRepository.save(newTransaction);
+                        return ResponseEntity.status(HttpStatus.ACCEPTED).body(newTransaction);
+                    }
                 }
             }
         }
+
         
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid transaction");
     }
     
     
+    private boolean isBussines(String userInviter) {
+        Optional<UserModel> thisUserOptional = userRepository.findByCpf(userInviter);
+        return thisUserOptional.map(thisUser -> thisUser.getUserType() == "bussines").orElse(null);
 
+    }
 
     private boolean isInviterExists(String userInviter) {
         return userRepository.existsByCpf(userInviter);
