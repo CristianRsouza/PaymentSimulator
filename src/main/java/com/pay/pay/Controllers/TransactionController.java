@@ -47,7 +47,7 @@ public class TransactionController {
                     userInviter.setWallet(userInviter.getWallet() - newTransaction.getValue_in_cents());
                     userRepository.save(userInviter);
                     userRepository.save(userReceiver);
-        
+                    System.out.println("Realizando tranzaçao...");
                     System.out.println("Transação realizada com sucesso!");
                     newTransaction.setId(UUID.randomUUID());
                     transactionRepository.save(newTransaction);
