@@ -48,7 +48,7 @@ public class TransactionController {
                     userRepository.save(userInviter);
                     userRepository.save(userReceiver);
         
-                    System.out.println("Transação realizada com sucesso");
+                    System.out.println("Transação realizada com sucesso!");
                     newTransaction.setId(UUID.randomUUID());
                     transactionRepository.save(newTransaction);
                     return ResponseEntity.status(HttpStatus.ACCEPTED).body(newTransaction);
