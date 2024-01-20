@@ -36,6 +36,7 @@ public class TransactionController {
     @PostMapping
     public ResponseEntity<Object> register(@RequestBody TransactionModel newTransaction) {
         if(!isBussines(newTransaction.getUserInviter())) {
+            System.out.println("Nao é uma empresa");
             if (isInviterExists(newTransaction.getUserInviter())) {
                 System.out.println("O inviter existe");
                 if (isReceiverExists(newTransaction.getUserReceiver())) {
@@ -64,9 +65,9 @@ public class TransactionController {
     
     private boolean isBussines(String userInviter) {
         Optional<UserModel> thisUserOptional = userRepository.findByCpf(userInviter);
-        return thisUserOptional.map(thisUser -> thisUser.getUserType() == "bussines").orElse(null);
-
+        return thisUserOptional.map(thisUser -> thisUser.getUserType().equals("bussines")).orElse(false);
     }
+    
 
     private boolean isInviterExists(String userInviter) {
         return userRepository.existsByCpf(userInviter);
