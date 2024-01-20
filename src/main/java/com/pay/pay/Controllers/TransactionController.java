@@ -1,65 +1,27 @@
 package com.pay.pay.Controllers;
 
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
+import com.pay.pay.Models.TransactionModel;
+import com.pay.pay.Repository.TransactionRepository;
+
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.pay.pay.Models.TransactionModel;
-import com.pay.pay.Models.UserModel;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 
 @RestController
-@RequestMapping("/api/transactions")
+@RequestMapping("/Transactions")
 public class TransactionController {
 
-    private List<TransactionModel> Transactions = new ArrayList<>();
-    private List<UserModel> users = new ArrayList<>();
-
+    @Autowired
+    private TransactionRepository transactionRepository;
+ 
     @GetMapping
-    public List<TransactionModel> getTransactions () {
-      return Transactions;
+    public List<TransactionModel> getTransactions() {
+        return transactionRepository.findAll();
     }
-
-    @PostMapping
-      public ResponseEntity<Object> register(@RequestBody TransactionModel newTransaction) {
-
-
-
-        if(InviterExist(newTransaction.getUserInviter())) {
-            if(ReciverExits(newTransaction.getUserInviter())) {
-                if(HaveMoneyEnougth(newTransaction.getUserInviter())) {
-
-                }
-            }
-
-        }
-        
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-      }
-
-      private boolean HaveMoneyEnougth(String userInviter) {
-        
-
-        return false;
-      
-      }
-
-      private boolean ReciverExits(String userReciver) {
-        return users.contains(userReciver);
-
-      }
-
-      private boolean InviterExist(String string) {
-          return users.contains(string);
-      }
-
+    
 }
