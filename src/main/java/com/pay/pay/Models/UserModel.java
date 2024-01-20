@@ -19,7 +19,8 @@ public class UserModel {
   private String name;
   private String cpf;
   private String userType;
-  private Integer wallet;
+  private Long wallet;
+
 
 
 
