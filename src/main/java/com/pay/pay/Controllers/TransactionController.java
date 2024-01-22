@@ -47,6 +47,7 @@ public class TransactionController {
                         UserModel userReceiver = userRepository.findByCpf(newTransaction.getUserReceiver()).orElseThrow();
             
                         userInviter.setWallet(userInviter.getWallet() - newTransaction.getValue_in_cents());
+                        userReceiver.setWallet(userReceiver.getWallet() + newTransaction.getValue_in_cents());
                         userRepository.save(userInviter);
                         userRepository.save(userReceiver);
                         System.out.println("Transação realizada com sucesso!");
